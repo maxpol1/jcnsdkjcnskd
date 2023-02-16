@@ -1,0 +1,37 @@
+version: "3.9"
+
+services:
+    web:
+        container_name: web-jobs
+        image: nginx:latest
+        ports:
+            - "8080:80"
+        volumes:
+            - ./:/var/www/html
+            - ./docker/web/default.conf:/etc/nginx/conf.d/default.conf
+        links:
+            - php-fpm
+            - mysql
+            - redis
+    php-fpm:
+        container_name: php-fpm-jobs
+        build:
+            dockerfile: docker/php/Dockerfile
+            context: .
+        volumes:
+            - ./:/var/www/html
+        links:
+            - mysql
+            - redis
+    mysql:
+        container_name: jobs_db
+        image: mariadb:10.3
+        ports:
+            - 3306:3306
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_DATABASE=jobs_db
+
+    redis:
+        container_name: redis-jobs
+        image: redis:latest
