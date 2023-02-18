@@ -35,3 +35,14 @@ services:
     redis:
         container_name: redis-jobs
         image: redis:latest
+
+    frontend:
+        container_name: frontend-petobots
+        image: node:lts
+        working_dir: /var/www/html
+        entrypoint: /bin/bash
+        ports:
+            - "8079:8079"
+        volumes:
+            - ./:/var/www/html
+        tty: true
