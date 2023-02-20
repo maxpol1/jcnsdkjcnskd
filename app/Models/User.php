@@ -46,7 +46,9 @@ class User extends Authenticatable
         return $this->hasOne(Profile::class);
     }
 
-    public function post(){
+    public function posts(): HasMany
+    {
+//        $posts = User::find(1)->comments()->where('title') ->first();
         return $this->hasMany(Post::class);
     }
 

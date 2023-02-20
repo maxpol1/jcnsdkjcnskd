@@ -23,6 +23,8 @@ services:
         links:
             - mysql
             - redis
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
     mysql:
         container_name: jobs_db
         image: mariadb:10.3
