@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\TaskController;
 use App\Models\Comment;
 use App\Models\Post;
@@ -18,6 +19,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::get('/', [ImageController::class, 'album']);
+
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::get('/users', [TaskController::class, 'index']);
@@ -30,8 +34,17 @@ Route::post('/contacts/{id}/store', [ContactController::class, 'update'])->name(
 Route::get('/contacts/{id}', [ContactController::class, 'show'])->name('contact.show');
 Route::post('/contacts/{id}/delete', [ContactController::class, 'destroy'])->name('contact.destroy');
 
-Route::get('/album', [\App\Http\Controllers\ImageController::class, 'index']);
-Route::post('/album', [\App\Http\Controllers\ImageController::class, 'store'])->name('album.store');
+Route::get('/album', [ImageController::class, 'index']);
+
+Route::get('/albums/{id}', [ImageController::class, 'show']);
+
+Route::post('/album', [ImageController::class, 'store'])->name('album.store');
+Route::post('/album/image', [ImageController::class, 'addImage'])->name('album.image');
+
+
+Route::post('image/delete', [ImageController::class, 'destroy'])->name('image.delete');
+
+
 
 
 
@@ -53,9 +66,10 @@ Route::get('post', function () {
 //});
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+
 
 
 Auth::routes();
